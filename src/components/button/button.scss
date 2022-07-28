@@ -1,0 +1,57 @@
+@import '../../styles/mixin.scss';
+@mixin button-type(
+  $bColor,
+  $bgColor,
+  $color,
+  $hoverBColor,
+  $hoverBgColor,
+  $hoverColor
+) {
+  border: 1px solid $bColor;
+  background-color: $bgColor;
+  color: $color;
+  &:hover {
+    border-color: $hoverBColor;
+    background-color: $hoverBgColor;
+    color: $hoverColor;
+  }
+}
+
+@mixin button-size($h, $p, $f) {
+  height: $h;
+  padding: $p;
+  font-size: $f;
+}
+
+@mixin button-shape($type) {
+  @if $type == round {
+    height: 32px;
+    padding: 4px 16px;
+    font-size: 14px;
+    border-radius: 32px;
+    @include when-m(large) {
+      height: 40px;
+      padding: 6.4px 20px;
+      font-size: 16px;
+      border-radius: 40px;
+    }
+    @include when-m(small) {
+      height: 24px;
+      padding: 0 12px;
+      font-size: 14px;
+      border-radius: 24px;
+    }
+  } @else if $type == circle {
+    min-width: 32px;
+    padding-right: 0;
+    padding-left: 0;
+    text-align: center;
+    border-radius: 50%;
+    @include when-m(large) {
+      min-width: 40px;
+    }
+    @include when-m(small) {
+      min-width: 24px;
+    }
+  }
+}
