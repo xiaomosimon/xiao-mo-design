@@ -17,7 +17,7 @@ export const formProps = {
     values: ['left', 'right'],
     default: 'left',
   },
-};
+} as const;
 
 export type FormProps = ExtractPropTypes<typeof formProps>;
 
@@ -51,7 +51,7 @@ export const formItemProps = {
     values: ['left', 'right'],
     default: 'left',
   },
-};
+} as const;
 
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>;
 

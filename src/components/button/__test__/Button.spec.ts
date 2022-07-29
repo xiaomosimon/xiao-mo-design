@@ -1,8 +1,10 @@
 import Button from '../Button.vue';
 import { mount } from '@vue/test-utils';
-function randomArray(list: string[]): string {
+
+const randomArray = (list: string[]): string => {
   return list[Math.floor(Math.random() * list.length)];
-}
+};
+
 describe('按钮测试', () => {
   it('按钮能够显示文本', () => {
     const content = '按钮';
@@ -21,7 +23,7 @@ describe('按钮测试', () => {
         type,
       },
     });
-    expect(wrapper.classes()).toContain(`xiao-button--${type}`);
+    expect(wrapper.classes()).toContain(`xiao-button__${type}`);
   });
 
   it('通过size属性控制状态', () => {
@@ -31,7 +33,7 @@ describe('按钮测试', () => {
         size,
       },
     });
-    expect(wrapper.classes()).toContain(`xiao-button--${size}`);
+    expect(wrapper.classes()).toContain(`xiao-button__${size}`);
   });
 
   it('通过shape属性控制状态', () => {
@@ -41,6 +43,6 @@ describe('按钮测试', () => {
         shape,
       },
     });
-    expect(wrapper.classes()).toContain(`xiao-button--${shape}`);
+    expect(wrapper.classes()).toContain(`xiao-button__${shape}`);
   });
 });

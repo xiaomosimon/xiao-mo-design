@@ -49,7 +49,7 @@ npm i async-validator
 
 ```json
 {
-  scripts: {
+  "scripts": {
     "lint": "eslint --fix --ext .js.jsx.vue.ts.tsx src/",
     "test:collect": "jest --config jest.config.js --cache=false",
     "test": "jest --config jest.config.js --collectCoverage=false --cache=false",
@@ -103,8 +103,8 @@ export default defineConfig({
 
 ```js
 // .eslintrc.js
-const DOMGlobals = ['window', 'document'];
-const NodeGlobals = ['module', 'require'];
+// const DOMGlobals = ['window', 'document'];
+// const NodeGlobals = ['module', 'require'];
 
 module.exports = {
   env: {
@@ -125,7 +125,7 @@ module.exports = {
   },
   plugins: ['vue', '@typescript-eslint', 'jest'],
   rules: {
-    'no-restricted-globals': ['error', ...DOMGlobals, ...NodeGlobals],
+    // 'no-restricted-globals': ['error', ...DOMGlobals, ...NodeGlobals],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'arrow-parens': ['error', 'always'],

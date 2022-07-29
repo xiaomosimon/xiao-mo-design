@@ -1,13 +1,16 @@
 <template>
-  <div class="xiao-layout" :class="{ 'is-vertical': isVertical }">
+  <div class="xiao-layout" :class="[ns.b(), isVertical ? ns.is('vertical') : '']">
     <slot />
   </div>
 </template>
 <script lang="ts" setup>
+import useNamespace from '@/hooks/useNamespace';
 import {
   computed, useSlots
 } from 'vue';
 import type { VNode, Component } from 'vue';
+
+const ns = useNamespace('layout');
 
 const slots = useSlots();
 
@@ -39,7 +42,7 @@ export default {
   box-sizing: border-box;
   min-width: 0;
 
-  @include when(vertical) {
+  @include is(vertical) {
     flex-direction: column;
   }
 }

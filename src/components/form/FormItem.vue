@@ -1,42 +1,43 @@
 <template>
-  <div class="xiao-row xiao-form-item" :class="errorMessage ? 'xiao-form-item-has-error' : ''">
-    <label v-if="showFixedLabel" class="xiao-form-item-label" :style="labelStyle">{{ label }}</label>
-    <slot name="label" />
-    <div class="xiao-form-item-control">
-      <div class="xiao-form-item-control-content">
+  <div :class="['xiao-row', ns.b(), errorMessage ? 'xiao-form-item-has-error' : '']">
+
+    <slot name="label">
+      <label :class="ns.e('label')" :style="labelStyle">{{ label }}</label>
+    </slot>
+    <div :class="ns.e('control')">
+      <div :class="ns.e('control-content')">
         <slot />
       </div>
-      <div v-if="errorMessage" class="xiao-form-item-explain xiao-form-item-explain-error">{{ errorMessage }}</div>
+      <div v-if="errorMessage" :class="[ns.e('explain'), ns.e('explain-error')]">{{ errorMessage }}</div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import useNamespace from '@/hooks/useNamespace';
 import Shchema from 'async-validator';
-import { inject, useSlots, ref, reactive, toRefs, computed, onMounted, provide } from 'vue';
-import type { FormItemContext } from './type';
+import { inject, ref, reactive, toRefs, computed, onMounted, provide } from 'vue';
+import { isUndefined } from '@/utils/types';
 import { formItemProps, formContextKey, formItemContextKey } from './type';
-import { isUndefined } from '@/utils/type';
+import type { FormItemContext } from './type';
 type LabelStyle = Record<string, string>;
+
+const ns = useNamespace('form-item');
+
 // form数据
 const formContext = inject(formContextKey, undefined);
-
 
 // TODO 待vue3解决  https://github.com/vuejs/core/issues/4294
 // const props = withDefaults(defineProps<FormItemProps>(), {
 const props = defineProps(formItemProps);
 
-const slots = useSlots();
-
-const showFixedLabel = computed(() => !!(slots && slots.label || props.label));
-
 // 样式 展示
 const labelStyle = computed(() => {
-  const style:LabelStyle = {};
-  if(formContext) {
-    if(formContext.labelAlign) {
+  const style: LabelStyle = {};
+  if (formContext) {
+    if (formContext.labelAlign) {
       style.textAlign = formContext.labelAlign;
     }
-    if(formContext.labelWidth) {
+    if (formContext.labelWidth) {
       style.width = formContext.labelWidth;
     }
   }
@@ -95,22 +96,22 @@ export default {
   margin-bottom: 24px;
   vertical-align: top;
 
-  &-has-error {
+  @include e(has-error) {
     margin-bottom: 0;
   }
 
-  &-label {
+  @include e(label) {
     flex: none;
     padding-right: 6px;
     font-size: $--font-size-base;
     vertical-align: middle;
   }
 
-  &-control {
+  @include e(control) {
     &-content {}
   }
 
-  &-explain {
+  @include e(explain) {
     min-height: 24px;
 
     &-error {

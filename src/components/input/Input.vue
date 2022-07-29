@@ -1,7 +1,11 @@
 <template>
-  <input class="xiao-input" :value="modelValue" @input="onInput" />
+  <input :class="ns.b()" :value="modelValue" @input="onInput" />
 </template>
 <script lang="ts" setup>
+import useNamespace from '@/hooks/useNamespace';
+
+const ns = useNamespace('input');
+
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 interface Props {
   modelValue: string | number | null | undefined;

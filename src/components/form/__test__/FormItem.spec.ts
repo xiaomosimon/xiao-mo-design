@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { h } from 'vue';
 
 describe('FormItem组件测试', () => {
-  it('测试FormItem默认插槽', () => {
+  it('FormItem默认插槽', () => {
     const content = '123';
     const wrapper = mount(FormItem, {
       slots: {
@@ -15,7 +15,7 @@ describe('FormItem组件测试', () => {
     );
   });
 
-  it('测试FormItem Label插槽', () => {
+  it('FormItem Label插槽', () => {
     const content = 'label slot';
     const wrapper = mount(FormItem, {
       slots: {
@@ -31,23 +31,15 @@ describe('FormItem组件测试', () => {
     expect(wrapper.find('.label-slot').text()).toBe(content);
   });
 
-  it('测试FormItem label属性', () => {
-    const content = '测试';
+  it('FormItem label和labelAlign属性', () => {
+    const content = '测试Label';
     const wrapper = mount(FormItem, {
       props: {
         label: content,
-      },
-    });
-    expect(wrapper.find('.xiao-form-item-label').text()).toBe(content);
-  });
-
-  it('测试FormItem labelAlign属性', () => {
-    const wrapper = mount(FormItem, {
-      props: {
-        label: '测试',
         labelAlign: 'right',
       },
     });
+    expect(wrapper.find('.xiao-form-item-label').text()).toBe(content);
     expect(wrapper.find('.xiao-form-item-label').attributes('style')).toContain(
       'text-align: right'
     );

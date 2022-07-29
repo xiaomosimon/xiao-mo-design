@@ -1,5 +1,5 @@
-const DOMGlobals = ['window', 'document'];
-const NodeGlobals = ['module', 'require'];
+// const DOMGlobals = ['window', 'document'];
+// const NodeGlobals = ['module', 'require'];
 
 module.exports = {
   env: {
@@ -20,7 +20,7 @@ module.exports = {
   },
   plugins: ['vue', '@typescript-eslint', 'jest'],
   rules: {
-    'no-restricted-globals': ['error', ...DOMGlobals, ...NodeGlobals],
+    // 'no-restricted-globals': ['error', ...DOMGlobals, ...NodeGlobals],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'arrow-parens': ['error', 'always'],

@@ -1,9 +1,12 @@
 <template>
-  <footer class="xiao-layout-footer">
+  <footer :class="ns.b()">
     <slot />
   </footer>
 </template>
 <script lang="ts" setup>
+import useNamespace from '@/hooks/useNamespace';
+
+const ns = useNamespace('layout-footer');
 </script>
 <script lang="ts">
 export default {

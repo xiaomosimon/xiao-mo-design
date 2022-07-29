@@ -1,12 +1,15 @@
 <template>
-  <div class="xiao-form">
+  <div :class="ns.b()">
     <slot />
   </div>
 </template>
 <script lang="ts" setup>
+import useNamespace from '@/hooks/useNamespace';
 import { reactive, provide, toRefs } from 'vue';
-import type { FormContext, FormValidateType, FormItemContext } from './type';
 import { formProps, formContextKey } from './type';
+import type { FormContext, FormValidateType, FormItemContext } from './type';
+
+const ns = useNamespace('form');
 
 // TODO 待vue3解决  https://github.com/vuejs/core/issues/4294
 // const props = withDefaults(defineProps<FormProps>(), {

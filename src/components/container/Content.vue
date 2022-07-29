@@ -1,9 +1,12 @@
 <template>
-  <main class="xiao-layout-content">
+  <main :class="ns.b()">
     <slot />
   </main>
 </template>
 <script lang="ts" setup>
+import useNamespace from '@/hooks/useNamespace';
+
+const ns = useNamespace('layout-content');
 </script>
 <script lang="ts">
 export default {

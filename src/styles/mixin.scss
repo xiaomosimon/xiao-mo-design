@@ -1,9 +1,9 @@
 // BEM
 // .block 代表了更高级别的抽象或组件。
 // .block-element 代表.block的后代，用于形成一个完整的.block的整体。
-// .block--modifier代表.block的不同状态或不同版本。
+// .block__modifier代表.block的不同状态或不同版本。
 $namespace: 'xiao'; // variable
-$state-prefix: 'is';
+$state-prefix: 'is-';
 @mixin b($block) {
   $B: $namespace + '-' + $block !global;
   .#{$B} {
@@ -12,9 +12,17 @@ $state-prefix: 'is';
   }
 }
 
+@mixin e($element) {
+  @at-root {
+    .#{$B + '-' + $element} {
+      @content;
+    }
+  }
+}
+
 @mixin m($modifier) {
   @at-root {
-    .#{$B + '--' + $modifier} {
+    .#{$B + '__' + $modifier} {
       @content;
     }
   }
@@ -22,16 +30,16 @@ $state-prefix: 'is';
 
 @mixin when-m($modifier) {
   @at-root {
-    &.#{$B + '--' + $modifier} {
+    &.#{$B + '__' + $modifier} {
       @content;
     }
   }
 }
 
-@mixin when($state) {
+@mixin is($state) {
   @at-root {
     // 作用域根元素
-    &.#{$state-prefix + '-' + $state} {
+    &.#{$state-prefix + $state} {
       @content;
     }
   }
