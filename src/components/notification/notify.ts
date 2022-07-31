@@ -1,9 +1,9 @@
-import { notificationTypes, NotificationProps } from './type';
+import { notificationTypes } from './type';
 import Notification from './Notification.vue';
 import useZIndex from '@/hooks/useZIndex';
 import { render, createVNode, isVNode } from 'vue';
 import type { VNode, ComponentPublicInstance } from 'vue';
-import type { NotifyFn, Notify } from './type';
+import type { NotifyFn, Notify, NotificationProps, NotificationProxy } from './type';
 
 const GAP_SIZE = 16;
 let seed = 1;
@@ -52,6 +52,7 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}) {
 
   return {
     vm,
+    proxy: vm.component!.proxy as NotificationProxy,
     close: () => {
       (
         vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>

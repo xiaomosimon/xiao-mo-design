@@ -1,5 +1,5 @@
 import Notification from '../Notification.vue';
-import { XiaoNotification } from '../index';
+import { XiaoNotification, close } from '../index';
 import { mount } from '@vue/test-utils';
 import { h } from 'vue';
 
@@ -106,32 +106,97 @@ describe('Notification组件渲染测试', () => {
 describe('Notification动态渲染测试', () => {
   it('默认配置', () => {
     const instanceProxy = XiaoNotification('哈哈哈');
-    expect(instanceProxy.vm.props!.message).toBe('哈哈哈');
-    expect(instanceProxy.vm.props!.duration).toBe(3000);
-    expect(instanceProxy.vm.props!.type).toBe('info');
-    expect(instanceProxy.vm.props!.zIndex).toBeGreaterThan(2000);
-    expect(instanceProxy.vm.props!.id).toBe('notification_1');
-    expect(instanceProxy.vm.props!.offset).toBeGreaterThanOrEqual(16);
+
+    expect(instanceProxy.proxy.visible).toBe(true);
+    expect(instanceProxy.proxy.id).toBe('notification_1');
+    expect(instanceProxy.proxy.title).toBe('');
+    expect(instanceProxy.proxy.message).toBe('哈哈哈');
+    expect(instanceProxy.proxy.duration).toBe(3000);
+    expect(instanceProxy.proxy.type).toBe('info');
+    expect(instanceProxy.proxy.showClose).toBe(false);
+    expect(instanceProxy.proxy.zIndex).toBeGreaterThan(2000);
+    expect(instanceProxy.proxy.offset).toBeGreaterThanOrEqual(16);
   });
 
   it('多个Notification', () => {
-    XiaoNotification('哈哈哈');
-    const instanceProxy = XiaoNotification('哈哈哈');
-    expect(instanceProxy.vm.props!.id).toBe('notification_3');
+    const instanceProxyMessage1 = '提示哈哈哈';
+    const instanceProxyMessage2 = '再建一个哈哈';
+    const instanceProxy1 = XiaoNotification(instanceProxyMessage1);
+    const instanceProxy2 = XiaoNotification(instanceProxyMessage2);
+    expect(instanceProxy1.proxy.id).toBe('notification_2');
+    expect(instanceProxy1.proxy.message).toBe(instanceProxyMessage1);
+    expect(instanceProxy1.proxy.zIndex).toBe(2002);
+    expect(instanceProxy2.proxy.id).toBe('notification_3');
+    expect(instanceProxy2.proxy.message).toBe(instanceProxyMessage2);
+    expect(instanceProxy2.proxy.zIndex).toBe(2003);
   });
 
-  it('手动关闭Notification', () => {
+  it('手动关闭', () => {
     const instanceProxy = XiaoNotification({
       message: '手动关闭',
-      duration: 0
+      duration: 0,
     });
-    expect(instanceProxy.vm.props!.duration).toBe(0);
+    expect(instanceProxy.proxy.duration).toBe(0);
     expect(instanceProxy.close()).toBeFalsy();
+    expect(instanceProxy.proxy.visible).toBe(false);
+  });
+
+  it('普通配置', () => {
+    const instanceProxy = XiaoNotification({
+      title: '提示',
+      message: '请将信息填写完整',
+    });
+    expect(instanceProxy.proxy.title).toBe('提示');
+    expect(instanceProxy.proxy.message).toBe('请将信息填写完整');
   });
 
   it('类型方法', () => {
-    const instanceProxy = XiaoNotification.success(h('h1',{}, 'hhhh'));
-    expect(instanceProxy.vm.props!.message).toBeInstanceOf(Object);
-    expect(instanceProxy.vm.props!.onDestroy).toBeInstanceOf(Function);
+    const children = h('h1', {}, 'hhhh');
+    const instanceProxy = XiaoNotification.success(children);
+    expect(instanceProxy.proxy.type).toBe('success');
+    expect(instanceProxy.proxy.message).toBe(children);
+  });
+
+  it('方法测试', () => {
+    const instanceProxy = XiaoNotification.success({
+      message: '成功了',
+      duration: 0,
+      onClose() {
+        instanceProxy.proxy.visible = false;
+      },
+    });
+
+    expect(instanceProxy.proxy.visible).toBe(true);
+    instanceProxy.proxy.onClose &&
+      instanceProxy.proxy.onClose(instanceProxy.vm);
+    instanceProxy.vm.props!.onDestroy();
+    expect(instanceProxy.proxy.visible).toBe(false);
+  });
+
+  it('close id查询', () => {
+    const instanceProxy = XiaoNotification.success({
+      message: '成功了',
+      duration: 0,
+    });
+
+    expect(instanceProxy.proxy.visible).toBe(true);
+    close(instanceProxy.proxy.id, () => {
+      instanceProxy.proxy.visible = false;
+    });
+    expect(instanceProxy.proxy.visible).toBe(false);
+  });
+
+  it('close 没有的id查询', () => {
+    const instanceProxy = XiaoNotification.success({
+      message: '成功了',
+      duration: 0,
+      onClose() {
+        instanceProxy.proxy.visible = false;
+      },
+    });
+
+    expect(instanceProxy.proxy.visible).toBe(true);
+    close('abc_id');
+    expect(instanceProxy.proxy.visible).toBe(true);
   });
 });

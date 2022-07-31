@@ -57,8 +57,17 @@ export type NotificationParamsTyped =
   | string
   | VNode;
 
+export type NotificationProxy = ComponentPublicInstance<
+  NotificationProps,
+  {
+    close: () => void;
+  },
+  { visible: boolean }
+>;
+
 export interface NotificationHandle {
-  vm: VNode;
+  vm: VNode,
+  proxy: NotificationProxy;
   close: () => void;
 }
 
